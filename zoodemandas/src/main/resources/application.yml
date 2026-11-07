@@ -8,6 +8,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none   # a tabela é criada pelo data.sql
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
   h2:
     console:
       enabled: true

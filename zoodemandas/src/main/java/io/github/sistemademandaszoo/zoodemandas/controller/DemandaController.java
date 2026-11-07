@@ -1,7 +1,7 @@
-package io.github.cursodsousa.zoodemandas.controller;
+package io.github.sistemademandaszoo.zoodemandas.controller;
 
-import io.github.cursodsousa.zoodemandas.model.Demanda;
-import io.github.cursodsousa.zoodemandas.repository.DemandaRepository;
+import io.github.sistemademandaszoo.zoodemandas.model.Demanda;
+import io.github.sistemademandaszoo.zoodemandas.repository.DemandaRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

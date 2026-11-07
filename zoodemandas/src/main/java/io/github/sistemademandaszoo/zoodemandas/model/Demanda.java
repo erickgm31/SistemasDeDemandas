@@ -1,4 +1,4 @@
-package io.github.cursodsousa.zoodemandas.model;
+package io.github.sistemademandaszoo.zoodemandas.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 public class Demanda {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "idDemanda")
     private String id;
 
     // Resumo curto da demanda (ex: "Animal mancando no recinto 4")

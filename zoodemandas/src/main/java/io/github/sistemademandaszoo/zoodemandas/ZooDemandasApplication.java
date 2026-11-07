@@ -1,4 +1,4 @@
-package io.github.cursodsousa.zoodemandas;
+package io.github.sistemademandaszoo.zoodemandas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
