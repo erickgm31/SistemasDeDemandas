@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criar conta | Zoo Demandas</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <h1>Criar conta</h1>
+  <p class="sub">Preencha seus dados para se cadastrar.</p>
+
+  <form id="form-cadastro">
+    <label>Nome completo
+      <input type="text" name="nome" required maxlength="60" autocomplete="name">
+    </label>
+
+    <label>E-mail
+      <input type="email" name="email" required maxlength="100" autocomplete="email">
+    </label>
+
+    <div class="linha">
+      <label>Telefone
+        <input type="tel" name="telefone" required maxlength="15"
+               placeholder="(83) 99999-9999" autocomplete="tel">
+      </label>
+      <label>Idade
+        <input type="number" name="idade" required min="14" max="120" step="1">
+      </label>
+    </div>
+
+    <label>Cargo
+      <select name="cargo" required>
+        <option value="" disabled selected>Selecione o cargo</option>
+        <option value="Gerente">Gerente</option>
+        <option value="Médico Veterinário">Médico Veterinário</option>
+        <option value="Desenvolvedor">Desenvolvedor</option>
+        <option value="Zootecnista">Zootecnista</option>
+        <option value="Tratador de animais">Tratador de animais</option>
+        <option value="Auxiliar de manutenção">Auxiliar de manutenção</option>
+        <option value="Auxiliar de limpeza">Auxiliar de limpeza</option>
+        <option value="Biólogo">Biólogo</option>
+      </select>
+    </label>
+
+    <div class="linha">
+      <label>Senha (mín. 8 caracteres)
+        <input type="password" name="senha" required minlength="8" autocomplete="new-password">
+      </label>
+      <label>Confirmar senha
+        <input type="password" name="confirmar" required minlength="8" autocomplete="new-password">
+      </label>
+    </div>
+
+    <button type="submit" id="btn">Cadastrar</button>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <p class="links">Já tem conta? <a href="login.html">Entrar</a><br>
+    <a href="index.html">Voltar ao início</a></p>
+</main>
+
+<script src="api.js"></script>
+<script>
+  const form = document.getElementById("form-cadastro");
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("btn");
+
+  function mostrar(texto, tipo) {
+    msg.textContent = texto;
+    msg.className = tipo;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (form.senha.value !== form.confirmar.value) {
+      mostrar("As senhas não coincidem.", "erro");
+      return;
+    }
+
+    // As chaves precisam ser iguais aos atributos da classe Usuario.
+    // O id é gerado pela API.
+    const usuario = {
+      nome: form.nome.value.trim(),
+      email: form.email.value.trim(),
+      telefone: form.telefone.value.trim(),
+      idade: parseInt(form.idade.value, 10),
+      cargo: form.cargo.value,
+      senha: form.senha.value
+    };
+
+    btn.disabled = true;
+    mostrar("Enviando...", "");
+
+    try {
+      await postJson("/usuario/cadastro", usuario);
+      mostrar("Cadastro realizado! Redirecionando para o login...", "ok");
+      form.reset();
+      setTimeout(() => { window.location.href = "login.html"; }, 1500);
+    } catch (erro) {
+      mostrar(erro.message, "erro");
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

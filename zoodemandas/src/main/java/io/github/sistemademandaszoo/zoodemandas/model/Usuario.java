@@ -1,5 +1,7 @@
 package io.github.sistemademandaszoo.zoodemandas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,16 +14,23 @@ public class Usuario {
     @Id
     @Column(name = "idUsuario")
     private String id;
+
     @Column(name = "emailUsuario")
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "senhaUsuario")
     private String senha;
+
     @Column(name = "nomeUsuario")
     private String nome;
+
     @Column(name = "idadeUsuario")
     private int idade;
+
     @Column(name = "cargoUsuario")
     private String cargo;
+
     @Column(name = "telefoneUsuario")
     private String telefone;
 
@@ -37,7 +46,7 @@ public class Usuario {
         return id;
     }
 
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -86,7 +95,7 @@ public class Usuario {
         return "Usuario{" +
                 "id='" + id + '\'' +
                 ", Nome='" + getNome() + '\'' +
-                ", Cargo='" + getCargo()+ '\'' +
+                ", Cargo='" + getCargo() + '\'' +
                 ", Telefone='" + getTelefone() + '\'' +
                 '}';
     }

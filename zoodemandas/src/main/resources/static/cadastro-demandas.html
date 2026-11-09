@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registrar demanda | Zoo Demandas</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <h1>Registrar demanda</h1>
+  <p class="sub">Informe a demanda, quem pode resolvê-la e os detalhes.</p>
+
+  <button type="button" id="btn-sair">Sair do sistema</button>
+
+  <form id="form-demanda">
+    <label>Demanda
+      <input type="text" name="titulo" required maxlength="100"
+             placeholder="Ex.: Animal mancando no recinto 4">
+    </label>
+
+    <label>Cargo que pode resolver
+      <select name="cargoResponsavel" required>
+        <option value="" disabled selected>Selecione o cargo</option>
+        <option value="Gerente">Gerente</option>
+        <option value="Médico Veterinário">Médico Veterinário</option>
+        <option value="Desenvolvedor">Desenvolvedor</option>
+        <option value="Zootecnista">Zootecnista</option>
+        <option value="Tratador de animais">Tratador de animais</option>
+        <option value="Auxiliar de manutenção">Auxiliar de manutenção</option>
+        <option value="Auxiliar de limpeza">Auxiliar de limpeza</option>
+        <option value="Biólogo">Biólogo</option>
+      </select>
+    </label>
+
+    <label>Descrição
+      <textarea name="descricao" maxlength="500"
+                placeholder="Descreva o que está acontecendo"></textarea>
+    </label>
+
+    <button type="submit" id="btn">Registrar demanda</button>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <p class="links"><a href="index.html">Voltar ao início</a></p>
+</main>
+
+<script src="api.js"></script>
+<script>
+  const form = document.getElementById("form-demanda");
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("btn");
+  const btnSair = document.getElementById("btn-sair");
+
+  function mostrar(texto, tipo) {
+    msg.textContent = texto;
+    msg.className = tipo;
+  }
+
+  // Registra uma nova demanda
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const demanda = {
+      titulo: form.titulo.value.trim(),
+      cargoResponsavel: form.cargoResponsavel.value,
+      descricao: form.descricao.value.trim()
+    };
+
+    btn.disabled = true;
+    mostrar("Enviando...", "");
+
+    try {
+      await postJson("/demandas", demanda);
+      mostrar("Demanda registrada com sucesso.", "ok");
+      form.reset();
+    } catch (erro) {
+      mostrar(erro.message, "erro");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // Encerra a sessão do funcionário
+  btnSair.addEventListener("click", async () => {
+
+    btnSair.disabled = true;
+    mostrar("Encerrando sessão...", "");
+
+    try {
+      await postJson("/usuario/logout", {});
+
+      window.location.replace("login.html");
+
+    } catch (erro) {
+
+      mostrar("Não foi possível encerrar a sessão: " + erro.message, "erro");
+      btnSair.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

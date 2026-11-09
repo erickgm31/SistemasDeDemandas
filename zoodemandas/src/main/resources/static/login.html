@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrar | Zoo Demandas</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+  <h1>Entrar</h1>
+  <p class="sub">Acesse com seu e-mail e senha.</p>
+
+  <form id="form-login">
+    <label>E-mail
+      <input type="email" name="email" required maxlength="100" autocomplete="email">
+    </label>
+
+    <label>Senha
+      <input type="password" name="senha" required autocomplete="current-password">
+    </label>
+
+    <button type="submit" id="btn">Entrar</button>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <p class="links">Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a><br>
+    <a href="index.html">Voltar ao início</a></p>
+</main>
+
+<script src="api.js"></script>
+<script>
+  const form = document.getElementById("form-login");
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("btn");
+
+  function mostrar(texto, tipo) {
+    msg.textContent = texto;
+    msg.className = tipo;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // As chaves precisam ser iguais aos atributos da classe LoginDTO
+    const dados = {
+      email: form.email.value.trim(),
+      senha: form.senha.value
+    };
+
+    btn.disabled = true;
+    mostrar("Verificando...", "");
+
+    try {
+      await postJson("/usuario/login", dados);
+      mostrar("Login realizado. Redirecionando...", "ok");
+      setTimeout(() => { window.location.href = "cadastro-demandas.html"; }, 700);
+    } catch (erro) {
+      mostrar(erro.message, "erro");
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
